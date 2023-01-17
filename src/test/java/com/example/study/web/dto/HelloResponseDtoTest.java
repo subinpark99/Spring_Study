@@ -1,6 +1,5 @@
-package com.example.study.dto;
+package com.example.study.web.dto;
 
-import com.example.study.web.dto.HelloResponseDto;
 import org.junit.Test;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
