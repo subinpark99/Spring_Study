@@ -27,6 +27,9 @@ dependencies {
 
     //인메모리 관계형 데이터베이스
     runtimeOnly 'com.h2database:h2'
+
+    //머스테치
+    implementation('org.springframework.boot:spring-boot-starter-mustache')
 }
 
 tasks.named('test') {
