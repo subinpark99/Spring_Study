@@ -1,9 +1,14 @@
 package com.example.study;
 
+import com.example.study.config.auth.SecurityConfig;
+import com.example.study.web.HelloController;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.hamcrest.Matchers.is;
@@ -14,11 +19,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @RunWith(SpringRunner.class)  // SpringRunner 라는 스프링 실행자 사용
-@WebMvcTest  // Web에 집중할 수 있는 어노테이션
+@WebMvcTest(controllers = HelloController.class,
+        excludeFilters = {
+                @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = SecurityConfig.class)
+        })
 class HelloControllerTest {
 
     @Autowired  // 스프링이 관리하는 빈(Bean)을 주입 받음
     private MockMvc mvc;  // 웹 API 테스트 시 사용
+    @WithMockUser(roles="USER")
     @Test
     public void hello가_리턴된다() throws Exception{
         String hello="hello";
@@ -28,7 +37,7 @@ class HelloControllerTest {
                 .andExpect(content().string(hello));  // 응답 본문의 내용 검증(이 값이 맞는 지 검증)
 
     }
-
+    @WithMockUser(roles="USER")
     @Test
     public void helloDto가_리턴된다() throws Exception{
         String name="hello";
