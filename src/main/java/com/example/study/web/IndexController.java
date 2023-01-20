@@ -1,5 +1,6 @@
 package com.example.study.web;
 
+import com.example.study.config.auth.LoginUser;
 import com.example.study.config.auth.dto.SessionUser;
 import com.example.study.service.posts.PostsService;
 import com.example.study.web.dto.PostsResponseDto;
@@ -20,10 +21,11 @@ public class IndexController {
     private final HttpSession httpSession;
 
     @GetMapping("/")
-    public String index(Model model) {  // Model- postsService.findAllDesc()로 가져온 결과를 posts로 index.mustache에 전달
+    public String index(Model model, @LoginUser SessionUser user) {  // Model- postsService.findAllDesc()로 가져온 결과를 posts로 index.mustache에 전달
         model.addAttribute("posts", postsService.findAllDesc());
 
-        SessionUser user=(SessionUser) httpSession.getAttribute("user");
+        // SessionUser user=(SessionUser) httpSession.getAttribute("user");
+
         if(user != null){
             model.addAttribute("userName",user.getName());
         }
